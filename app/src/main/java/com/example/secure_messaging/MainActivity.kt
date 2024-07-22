@@ -90,28 +90,17 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-//                response.body?.let { responseBody ->
-//                    val responseString = responseBody.string()
-//                    val messages = responseString.substringAfter("\"messages\":[").substringBefore("]}").split(",").map {
-//                        it.trim().trim('"')
-//                    }
-//                    runOnUiThread {
-//                        messages.forEach { encryptedMessage ->
-//                            val decryptedMessage = CryptoUtils.decrypt(encryptionKey!!, encryptedMessage)
-//                            Toast.makeText(this@MainActivity, "Decrypted message: $decryptedMessage", Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                }
                 response.body?.let { responseBody ->
-                    val responseString = responseBody.string()
-                    // Parse the JSON response
-
-                    // Update the UI
+                    val jsonObject = JSONObject(responseBody.string())
+                    val jsonArray = jsonObject.getJSONArray("messages")
                     runOnUiThread {
-                        // Convert the JSON array to a string and set it to the TextView
-                        receivedText.text = responseString
+                        for (i in 0 until jsonArray.length()) {
+                            val encryptedMessage = jsonArray.getString(i)
+                            val decryptedMessage = CryptoUtils.decrypt(encryptionKey!!, encryptedMessage)
+                            receivedText.text = decryptedMessage
+                        }
                     }
-                } ?: runOnUiThread {
+                }?: runOnUiThread {
                     receivedText.text = "No messages received"
                 }
             }
