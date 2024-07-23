@@ -1,6 +1,7 @@
 package com.example.secure_messaging
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -10,6 +11,7 @@ import com.google.crypto.tink.Aead
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
+import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 
@@ -90,18 +92,32 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
+
                 response.body?.let { responseBody ->
-                    val jsonObject = JSONObject(responseBody.string())
-                    val jsonArray = jsonObject.getJSONArray("messages")
-                    runOnUiThread {
+                    val responseString = responseBody.string()
+                    Log.d("debug", responseString)
+                    try{
+                        val jsonObject = JSONObject(responseString)
+                        val jsonArray = jsonObject.getJSONArray("messages")
+                        val messages = StringBuilder()
                         for (i in 0 until jsonArray.length()) {
-                            val encryptedMessage = jsonArray.getString(i)
-                            val decryptedMessage = CryptoUtils.decrypt(encryptionKey!!, encryptedMessage)
-                            receivedText.text = decryptedMessage
+                            val messageObject = jsonArray.getJSONObject(i)
+                            val message = CryptoUtils.decrypt(encryptionKey!!, messageObject.getString("message"))
+                            messages.append(message).append(System.lineSeparator())
                         }
+                        runOnUiThread {
+                            receivedText.text = messages.toString().trim()
+                        }
+                    }catch (e: JSONException){
+                        runOnUiThread{
+                            receivedText.text = "jsonexception" + responseString
+                        }
+                        Log.d("jsonexception", e.toString())
                     }
+
                 }?: runOnUiThread {
-                    receivedText.text = "No messages received"
+                    //receivedText.text = "No messages received"
+                    Log.d("debug", "Error")
                 }
             }
         })
