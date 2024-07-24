@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }catch (e: JSONException){
                         runOnUiThread{
-                            receivedText.text = "jsonexception" + responseString
+                            receivedText.text = "jsonexception " + responseString
                         }
                         Log.d("jsonexception", e.toString())
                     }
