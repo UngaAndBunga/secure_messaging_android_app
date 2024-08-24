@@ -17,6 +17,7 @@ tinkVersion = "1.5.0"
 securityCrypto = "1.0.0"
 coroutinesCore = "1.6.4"
 coroutinesAndroid = "1.6.4"
+drawer-layout = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +36,7 @@ kotlinx_coroutines_android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttpVersion" }
 tink = { group = "com.google.crypto.tink", name = "tink-android", version.ref = "tinkVersion" }
 security_crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
+drawer-layout = {group = "androidx.drawerlayout", name = "drawerlayout", version.ref = "drawer-layout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

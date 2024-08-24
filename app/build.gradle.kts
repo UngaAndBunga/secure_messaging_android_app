@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.secure_messaging"
+    namespace = "com.ourmessagingapp.secure_messaging"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.secure_messaging"
+        applicationId = "com.ourmessagingapp.secure_messaging"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.security.crypto)
     implementation(libs.tink)
+    implementation(libs.drawer.layout)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

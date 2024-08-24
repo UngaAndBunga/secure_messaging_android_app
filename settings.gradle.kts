@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "secure_messaging"
+rootProject.name = "com.ourmessagingapp.secure_messaging"
 include(":app")
